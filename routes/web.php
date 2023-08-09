@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,8 +18,8 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', 'PagesController@index');
-Route::post('/', 'PagesController@save');
+Route::get('/', [PagesController::class, 'index']);
+Route::post('/', [PagesController::class, 'save']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
