@@ -14,9 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/', 'PagesController@index');
+Route::post('/', 'PagesController@save');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
