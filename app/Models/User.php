@@ -42,4 +42,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // topicsとの一対多のリレーションメソッドを定義
+    public function topics()
+    {
+        return $this->hasMany(Topic::class);
+    }
 }

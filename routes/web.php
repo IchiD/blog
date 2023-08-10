@@ -20,6 +20,7 @@ use App\Http\Controllers\PagesController;
 // });
 Route::get('/', [PagesController::class, 'index']);
 Route::post('/', [PagesController::class, 'save']);
+Route::delete('/topic/{id}', [PagesController::class, 'destroy'])->name('topic.delete');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -31,4 +32,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
