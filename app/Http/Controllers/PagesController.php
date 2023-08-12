@@ -30,15 +30,15 @@ class PagesController extends Controller
             $topic->content = $request->content;
             $topic->user_id = auth()->user()->id ?? null;
 
-            if ($request->hasFile('imgpath')) {
-                $image = $request->file('imgpath');
+            if ($request->hasFile('img')) {
+                $image = $request->file('img');
                 $filename = time() . $image->getClientOriginalName();
                 // 画像をリサイズして保存
-                $thumbnailPath = public_path('thumbnails/' . $filename);
+                $thumbnailPath = storage_path('app/public/thumbnails/' . $filename);
                 Image::make($image->getRealPath())->resize(200, 200)->save($thumbnailPath);
 
                 // オリジナル画像を保存
-                $imagePath = public_path('images/' . $filename);
+                $imagePath = storage_path('app/public/images/' . $filename);
                 Image::make($image->getRealPath())->save($imagePath);
 
                 $topic->imgpath = $filename;

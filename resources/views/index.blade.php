@@ -70,7 +70,7 @@
             {{ csrf_field() }}
             <input class="form-control my-2" type="text" name="title" placeholder="タイトル">
             <textarea class="form-control my-2" name="content" rows="4" placeholder="本文" required></textarea>
-            <input type="file" name="imgpath">
+            <input type="file" name="img">
             <input class="form-control my-2" type="submit" value="送信">
         </form>
 
@@ -80,7 +80,7 @@
         <div class="border my-2 p-2">
             <div class="p-1">{{ $topic->title }}</div>
             @if ($topic->imgpath)
-            <img src="{{ asset('thumbnails/' . $topic->imgpath) }}" alt="投稿画像">
+            <img src="{{ asset('storage/images/' . $topic->imgpath) }}" alt="投稿画像">
             @endif
             <div class="p-2">{!! nl2br(e($topic->content)) !!}</div>
             <div class="text-secondary">投稿者:{{ $topic->name }} さん</div>
