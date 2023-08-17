@@ -53,7 +53,7 @@ class PagesController extends Controller
             return redirect('/')->with('error', '本文を入力してください。');
         }
     }
-
+    // メソッドの引数には、ルーティングのリクエストパラメーターが渡される
     public function detail($id)
     {
         $topic = Topic::find($id);
