@@ -21,12 +21,13 @@
 
 
     @forelse ( $topics as $topic )
+    <!-- forelseは空の場合の処理も書けるlaravelBladeの機能。foreachで書く場合は別にif文などで空チェックをする必要がある。 -->
     <div class="border my-2 p-2">
         <div class="p-1">{{ $topic->title }}</div>
         @if ($topic->imgpath)
         <img src="{{ asset('storage/thumbnails/' . $topic->imgpath) }}" alt="投稿画像" data-toggle="modal" data-target="#imageModal">
         @endif
-        <div class="p-2">{!! nl2br(e($topic->content)) !!}</div>
+        <div class="topic-content p-2">{!! nl2br(e($topic->content)) !!}</div>
         <div class="text-secondary">{{ $topic->likes()->count() }}いいね</div>
         <div class="text-secondary">投稿者:{{ $topic->name }} さん</div>
         <div class="text-secondary">投稿日:{{ $topic->created_at }}</div>
@@ -55,6 +56,7 @@
     @endforelse
 
 </main>
+@vite(['resources/js/jquery.js'])
 </body>
 
 @endsection

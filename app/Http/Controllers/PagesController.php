@@ -14,8 +14,7 @@ class PagesController extends Controller
     {
         // getでindexにアクセスされた場合の処理
         $topics  = Topic::latest()->get();
-
-        return view('index', ["topics" => $topics]); // view関数の第二引数に連想配列を渡す
+        return view('topics.index', ["topics" => $topics]); // view関数の第二引数に連想配列を渡す
     }
     public function save(Request $request)
     {
@@ -58,7 +57,7 @@ class PagesController extends Controller
     public function detail($id)
     {
         $topic = Topic::find($id);
-        return view('detail', ['topic' => $topic]);
+        return view('topics.detail', ['topic' => $topic]);
     }
 
     public function destroy($id)
@@ -85,7 +84,7 @@ class PagesController extends Controller
         if (auth()->id() !== $topic->user_id) {
             return redirect('/')->with('error', 'この投稿は編集できません。');
         }
-        return view('edit', ['topic' => $topic]);
+        return view('topics.edit', ['topic' => $topic]);
     }
 
     public function update(Request $request, $id)
