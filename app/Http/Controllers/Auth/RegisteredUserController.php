@@ -28,20 +28,23 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
+
+    // RedirectResponseは、戻り値の型宣言でRedirectResponseオブジェクトを返すことを示す。RedirectResponse以外のオブジェクトを返そうとするとエラーになる。
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-
+        // dbに保存、パスワードはハッシュ化
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
+        var_dump($user);
+        // Registeredイベントを発行する。リスナーはapp/Listeners/ShowWelcomeMessage.php
         event(new Registered($user));
 
         Auth::login($user);

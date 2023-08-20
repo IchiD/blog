@@ -39,11 +39,15 @@ class LoginRequest extends FormRequest
      */
     public function authenticate(): void
     {
+        // $thisはリクエストそのもの（LoginRequestオブジェクト）
         $this->ensureIsNotRateLimited();
-
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        // Auth::attempt()は、ユーザーが認証された場合はtrueを返し、認証されなかった場合はfalseを返す。第一引数にリクエストから取得したemailとpasswordを渡す。第二引数には、ユーザーが「ログイン状態を保持する」のチェックボックスをチェックした場合はtrue、チェックしなかった場合はfalseを渡す。
+        if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+            // ログイン認証が失敗したら以下の処理
+            // throttleKey()メソッドは、ユーザーのemailとIPアドレスを結合した文字列を返すことでユーザーを識別する。hit()メソッドは、第一引数に指定したキーの値をインクリメントする。第二引数には、リクエストが拒否された場合に何秒後に再試行できるかを指定する。デフォルト値が60秒になっている。
             RateLimiter::hit($this->throttleKey());
 
+            // 
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
             ]);
@@ -57,12 +61,15 @@ class LoginRequest extends FormRequest
      *
      * @throws \Illuminate\Validation\ValidationException
      */
+
+    // ログイン試行回数が5回を超えた場合、ログインを拒否する関数
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        // tooManyAttempts()メソッドは、第一引数に指定したキーの値が第二引数に指定した回数を超えている場合はtrue、そうでない場合はfalseを返す。
+        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
-
+        // 5回を超えた場合は以下の処理
         event(new Lockout($this));
 
         $seconds = RateLimiter::availableIn($this->throttleKey());
@@ -80,6 +87,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->input('email')) . '|' . $this->ip());
     }
 }
