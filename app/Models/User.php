@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
+    // トレイトを取り込む（トレイトとは複数のクラス間で共通のメソッドやプロパティを共有するために使用される機能）
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
