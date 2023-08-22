@@ -5,9 +5,9 @@
 <main class="container">
     <!-- フラッシュメッセージの表示 -->
     @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
+    <div class="alert alert-success mt-1">{{ session('success') }}</div>
     @elseif(session('error'))
-    <div class="alert alert-danger">{{ session('error') }}</div>
+    <div class="alert alert-danger mt-1">{{ session('error') }}</div>
     @endif
 
     <form method="POST" action="/" enctype="multipart/form-data">

@@ -11,12 +11,23 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
+// メール認証を促すページの表示
+Route::get('verify-email', EmailVerificationPromptController::class)
+    ->name('verification.notice');
+// メール認証の再送信
+Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+    // 1分間に6回までアクセス可能
+    ->middleware('throttle:6,1')
+    ->name('verification.send');
+
+// middleware('guest')は、ログインしていないユーザーのみアクセス可能。
 Route::middleware('guest')->group(function () {
     // 登録フォームの表示
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
     // 登録処理
-    Route::post('register', [RegisteredUserController::class, 'store']);
+    Route::post('register', [RegisteredUserController::class, 'store'])
+        ->name('register.store');
     // ログインフォームの表示
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
@@ -36,17 +47,11 @@ Route::middleware('guest')->group(function () {
         ->name('password.store');
 });
 
+// middleware('auth')は、ログインしているユーザーのみアクセス可能。
 Route::middleware('auth')->group(function () {
-    Route::get('verify-email', EmailVerificationPromptController::class)
-        ->name('verification.notice');
-
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');
-
-    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-        ->middleware('throttle:6,1')
-        ->name('verification.send');
 
     Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
         ->name('password.confirm');

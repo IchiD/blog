@@ -19,21 +19,23 @@ use App\Http\Controllers\PagesController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
 Route::get('/', [PagesController::class, 'index']);
+Route::get('/topic/detail/{id}', [PagesController::class, 'detail'])->name('topic.detail');
+
+// Route::middleware(['auth', 'verified'])->group(function () {
 Route::post('/', [PagesController::class, 'save']);
 Route::get('/topic/edit/{id}', [PagesController::class, 'edit'])->name('topic.edit');
 Route::put('/topic/edit/update/{id}', [PagesController::class, 'update'])->name('topic.update');
 Route::delete('/topic/delete/{id}', [PagesController::class, 'destroy'])->name('topic.delete');
 
-Route::get('/topic/detail/{id}', [PagesController::class, 'detail'])->name('topic.detail');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 // いいね機能
 Route::post('topic/like/{topic}', [PagesController::class, 'like'])->name('post.like');
-// Route::post('topic/unlike/{topic}', [PagesController::class, 'unlike'])->name('post.unlike');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -42,3 +44,4 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+// });

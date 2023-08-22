@@ -22,6 +22,6 @@ class ShowWelcomeMessage
      */
     public function handle(Registered $event): void
     {
-        session()->flash('success', '会員登録しました！');
+        session()->flash('success', __('auth.Registration_completed'));
     }
 }
