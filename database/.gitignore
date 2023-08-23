@@ -1,1 +1,4 @@
-*.sqlite*
+*
+!public/
+!.gitignore
+!storage/app/public/images/.gitkeep
