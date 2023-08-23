@@ -34,6 +34,13 @@ class PagesController extends Controller
             if ($request->hasFile('img')) {
                 $image = $request->file('img');
                 $filename = time() . $image->getClientOriginalName();
+                // 画像を保存するディレクトリがなければ作成
+                if (!Storage::disk('public')->exists('images')) {
+                    Storage::disk('public')->makeDirectory('images');
+                }
+                if (!Storage::disk('public')->exists('thumbnails')) {
+                    Storage::disk('public')->makeDirectory('thumbnails');
+                }
                 // 画像をリサイズして保存
                 $thumbnailPath = storage_path('app/public/thumbnails/' . $filename);
                 Image::make($image->getRealPath())
@@ -99,13 +106,6 @@ class PagesController extends Controller
         if ($request->hasFile('img')) {
             $image = $request->file('img');
             $filename = time() . $image->getClientOriginalName();
-            // 画像を保存するディレクトリがなければ作成
-            if (!Storage::disk('public')->exists('images')) {
-                Storage::disk('public')->makeDirectory('images');
-            }
-            if (!Storage::disk('public')->exists('thumbnails')) {
-                Storage::disk('public')->makeDirectory('thumbnails');
-            }
             // 画像をリサイズして保存
             $thumbnailPath = storage_path('app/public/thumbnails/' . $filename);
             Image::make($image->getRealPath())
