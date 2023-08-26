@@ -13,15 +13,17 @@ cp .env.example .env
 
 composer install
 
-php artisan key:generate
-
-npm install
-
-npm run dev
+./vendor/bin/sail up
 
 ターミナル新規ウィンドウを開いてclone-blogのディレクトリに移動
 
-./vendor/bin/sail up
+./vendor/bin/sail composer install
+
+./vendor/bin/sail artisan key:generate
+
+./vendor/bin/sail npm install
+
+./vendor/bin/sail npm run dev
 
 ターミナル新規ウィンドウを開いてclone-blogのディレクトリに移動
 
