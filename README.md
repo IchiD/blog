@@ -19,8 +19,6 @@ composer install
 
 ./vendor/bin/sail composer install
 
-./vendor/bin/sail artisan key:generate
-
 ./vendor/bin/sail npm install
 
 ./vendor/bin/sail npm run dev
@@ -28,10 +26,6 @@ composer install
 ターミナル新規ウィンドウを開いてclone-blogのディレクトリに移動
 
 ./vendor/bin/sail artisan migrate
-
-mkdir -p storage/app/public/images
-
-mkdir -p storage/app/public/thumbnails
 
 vendor/bin/sail artisan storage:link
 
